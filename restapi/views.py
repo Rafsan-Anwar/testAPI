@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import ContactSerializer
-from .models import Contact
+from .serializers import *
+from .models import *
 
 @api_view(['GET','POST'])
 def allContacts(request):
@@ -24,9 +24,10 @@ def allContacts(request):
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+
+# @authentication_classes([SessionAuthentication, BasicAuthentication])
+# @permission_classes([IsAuthenticated])
 @api_view(['GET','PUT','DELETE'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
 def oneContact(request, id):
     try:
         contact = Contact.objects.get(id=id)
@@ -55,3 +56,43 @@ def oneContact(request, id):
 def hitLike(request, name):
     user = User.objects.get(username__iexact = name)
     pass
+
+@api_view(['GET','POST'])
+def allStudent(request):
+    if request.method == 'GET':
+        student = Student.objects.all()
+        serializer = StudentSerializer(student, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        print(request.data)
+        serializer = StudentSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def oneStudent(request):
+    try:
+        student = Student.objects.get(id=id)
+    except Student.DoesNotExist:
+        return Response(status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'GET':
+        serializer = StudentSerializer(student, many=False)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = StudentSerializer(instance=student,data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_200_OK)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        student.delete()
+        return Response('Item succesfully deleted!')
+
+
