@@ -3,7 +3,7 @@ from django.urls import path
 from .views import *
 urlpatterns = [
     path('all/', allContacts, name = 'all'),
-    path('one/<int:id>/', oneContact),
+    path('one/<int:id>/', oneContact, name = "oneContact"),
     path('student/', allStudent),
     path('oneStudent/', oneStudent),
     path('detailsStudent/<int:id>/', detailsStudent),
