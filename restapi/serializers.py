@@ -11,24 +11,27 @@ class ContactSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ["firstName", 'lastName', 'studentID']
+        fields = ["id","firstName", 'lastName', 'studentID']
 
 
 class DetailedStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetailedStudent
         fields = ["id","student","bloodGroup", 'address']
+        # depth = 1
 
 
 class StudentClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentClass
         fields = ["id","student", 'studentClass']
+        # depth = 1
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = ["id","student", 'subject']
+        depth = 1
 
 
 
