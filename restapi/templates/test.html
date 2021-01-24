@@ -5,6 +5,9 @@
 <h2>The XMLHttpRequest Object</h2>
 
 <button type="button" onclick="loadDoc()">Request data</button>
+<button type="button" onclick="loadDoc2()">Post data</button>
+<button type="button" onclick="loadDoc3()">Put data</button>
+<button type="button" onclick="loadDoc3()">delete data</button>
 
 <p id="demo"></p>
 
@@ -17,7 +20,46 @@ function loadDoc() {
     }
   };
   xhttp.open("GET", "{% url 'all' %}", true);
+  xhttp.setRequestHeader("content-Type", "application/json");
   xhttp.send();
+}
+
+function loadDoc2() {
+var obj =     {
+        "name": "New Name",
+        "phone": "010101"
+    };
+    objJSON = JSON.stringify(obj);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "{% url 'all' %}", true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(objJSON);
+}
+
+function loadDoc3() {
+var obj =     {
+        "id": 2,
+        "name": "Update Name",
+        "phone": "020202"
+    };
+    objJSON = JSON.stringify(obj);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", "{% url 'one' %}", true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(objJSON);
+}
+
+function loadDoc3() {
+var obj =     {
+        "id": 2,
+        "name": "Update Name",
+        "phone": "020202"
+    };
+    objJSON = JSON.stringify(obj);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", "{% url 'one' %}", true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(objJSON);
 }
 </script>
 

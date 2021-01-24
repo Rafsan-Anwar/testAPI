@@ -29,9 +29,9 @@ def allContacts(request):
 # @authentication_classes([SessionAuthentication, BasicAuthentication])
 # @permission_classes([IsAuthenticated])
 @api_view(['GET','PUT','DELETE'])
-def oneContact(request, id):
+def oneContact(request):
     try:
-        contact = Contact.objects.get(id=id)
+        contact = Contact.objects.get(id=int(request.data["id"]))
     except Contact.DoesNotExist:
         return Response(status.HTTP_400_BAD_REQUEST)
 
@@ -48,7 +48,7 @@ def oneContact(request, id):
 
     if request.method == 'DELETE':
         try:
-            contact = Contact.objects.get(id=id)
+            contact = Contact.objects.get(id=int(request.data["id"]))
             contact.delete()
             return Response(status.HTTP_200_OK)
         except Contact.DoesNotExist:
