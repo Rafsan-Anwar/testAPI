@@ -47,8 +47,13 @@ def oneContact(request, id):
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'DELETE':
-        contact.delete()
-        return Response('Item succesfully deleted!')
+        try:
+            contact = Contact.objects.get(id=id)
+            contact.delete()
+            return Response(status.HTTP_200_OK)
+        except Contact.DoesNotExist:
+            return Response(status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET','PUT','DELETE'])
